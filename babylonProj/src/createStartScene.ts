@@ -8,6 +8,7 @@ import {
     MeshBuilder,
     Mesh,
     Light,
+    Color3,
     Camera,
     Engine,
   } from "@babylonjs/core";
