@@ -43,7 +43,7 @@ import {
   function createGround(scene: Scene) {
     let ground = MeshBuilder.CreateGround(
       "ground",
-      { width: 6, height: 6 },
+      { width: 10, height: 10 },
       scene,
     );
     return ground;
