@@ -37,6 +37,7 @@ import {
       scene,
     );
     sphere.position.y = 1;
+    sphere.position.x = 3;
     return sphere;
   }
   
