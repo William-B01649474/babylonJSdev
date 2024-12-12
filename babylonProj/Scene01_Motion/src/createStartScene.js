@@ -1,30 +1,42 @@
-//import "@babylonjs/core/Debug/debugLayer";
-//import "@babylonjs/inspector";
-import { Scene, ArcRotateCamera, Vector3, HemisphericLight, MeshBuilder, Color3, } from "@babylonjs/core";
+// Import BabylonJS modules
+import { Scene, ArcRotateCamera, Vector3, SpotLight, MeshBuilder, Color3, Animation } from "@babylonjs/core";
 
 function createBox(scene) {
     let box = MeshBuilder.CreateBox("box", { size: 1 }, scene);
-    box.position.y = 3;
+    box.position.y = 10;
     return box;
 }
 
 function createLight(scene) {
-    const light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
-    light.intensity = 0.7;
-    light.diffuse = new Color3(1, 0, 0);
-    light.specular = new Color3(0, 1, 0);
-    light.groundColor = new Color3(0, 1, 0);
-    return light;
+    // Spotlight setup
+    const spotlight = new SpotLight("spotlight", new Vector3(0, 5, 0), new Vector3(0, -1, 0), Math.PI / 3, 2, scene);
+    spotlight.diffuse = new Color3(1, 1, 1);
+    spotlight.specular = new Color3(1, 1, 1);
+    return spotlight;
 }
 
 function createSphere(scene) {
     let sphere = MeshBuilder.CreateSphere("sphere", { diameter: 2, segments: 32 }, scene);
     sphere.position.y = 1;
+
+    // Add looping animation to move left and right
+    const animation = new Animation("sphereAnimation", "position.x", 30, Animation.ANIMATIONTYPE_FLOAT, Animation.ANIMATIONLOOPMODE_CYCLE);
+
+    const keys = [
+        { frame: 0, value: -5 }, // Start position on the left
+        { frame: 30, value: 5 }, // Move to the right
+        { frame: 60, value: -5 } // Back to the left
+    ];
+
+    animation.setKeys(keys);
+    sphere.animations.push(animation);
+
+    scene.beginAnimation(sphere, 0, 60, true);
     return sphere;
 }
 
 function createGround(scene) {
-    let ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene);
+    let ground = MeshBuilder.CreateGround("ground", { width: 40, height: 40 }, scene);
     return ground;
 }
 
