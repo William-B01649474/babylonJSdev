@@ -41,8 +41,25 @@ function createGround(scene) {
 }
 
 function createArcRotateCamera(scene) {
-    let camAlpha = -Math.PI / 2, camBeta = Math.PI / 2.5, camDist = 10, camTarget = new Vector3(0, 0, 0);
-    let camera = new ArcRotateCamera("camera1", camAlpha, camBeta, camDist, camTarget, scene);
+    let camAlpha = -Math.PI / 2,
+     camBeta = Math.PI / 2.5,
+     camDist = 10,
+     camTarget = new Vector3(0, 0, 0);
+    let camera = new ArcRotateCamera(
+     "camera1",
+     camAlpha,
+     camBeta,
+     camDist,
+     camTarget,
+     scene
+    );
+        camera.lowerRadiusLimit = 0;
+        camera.upperRadiusLimit = 12;
+        camera.lowerAlphaLimit = 0;
+        camera.upperAlphaLimit = Math.PI * 2;
+        camera.lowerBetaLimit = 0;
+        camera.upperBetaLimit = Math.PI / 2.02;
+
     camera.attachControl(true);
     return camera;
 }

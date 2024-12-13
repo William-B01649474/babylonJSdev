@@ -241,7 +241,7 @@ function createHemisphericLight(scene: Scene) {
 function createArcRotateCamera(scene: Scene) {
   let camAlpha = -Math.PI / 2,
     camBeta = Math.PI / 2.5,
-    camDist = 25,
+    camDist = 18,
     camTarget = new Vector3(0, 0, 0);
   let camera = new ArcRotateCamera(
     "camera1",
@@ -251,8 +251,8 @@ function createArcRotateCamera(scene: Scene) {
     camTarget,
     scene
   );
-  camera.lowerRadiusLimit = 9;
-  camera.upperRadiusLimit = 25;
+  camera.lowerRadiusLimit = 6;
+  camera.upperRadiusLimit = 18;
   camera.lowerAlphaLimit = 0;
   camera.upperAlphaLimit = Math.PI * 2;
   camera.lowerBetaLimit = 0;
