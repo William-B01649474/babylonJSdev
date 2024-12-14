@@ -1,5 +1,7 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
+import jsonData from "./guiTexture.json";
+import { createGUIFromJSON } from "./load_gui_from_json";
 import {
     Scene,
     ArcRotateCamera,
@@ -20,7 +22,8 @@ import {
     return box;
   }
 
-  
+  const ui = createGUIFromJSON(jsonData, Scene);
+
   function createLight(scene: Scene) {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;

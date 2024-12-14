@@ -1,19 +1,23 @@
-import { Engine } from "@babylonjs/core";
-import { createGameScene } from "./createStartScene";
+import { Engine} from "@babylonjs/core";
+import createStartScene from "./createStartScene";
+import createRunScene from "./createRunScene";
+import createGUIScene from "./createGUI";
+import "./main.css";
+import { SceneData } from "./interfaces";
 
-// Initialize BabylonJS Engine
-const canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
-const engine = new Engine(canvas, true);
+const CanvasName = "renderCanvas";
 
-// Create the game scene
-const scene = createGameScene(engine);
+let canvas = document.createElement("canvas");
+canvas.id = CanvasName;
 
-// Render loop
-engine.runRenderLoop(() => {
-    scene.render();
-});
+canvas.classList.add("background-canvas");
+document.body.appendChild(canvas);
 
-// Handle window resize
-window.addEventListener("resize", () => {
-    engine.resize();
+let eng = new Engine(canvas, true, {}, true);
+let startScene:SceneData = createStartScene(eng);
+createGUIScene(startScene);
+createRunScene(startScene);
+
+eng.runRenderLoop(() => {
+  startScene.scene.render();
 });

@@ -1,5 +1,6 @@
 import { Engine } from "@babylonjs/core";
 import createStartScene from "./createStartScene";
+import jsonData from "./guiTexture.json";
 import './main.css';
 
 const CanvasName = "renderCanvas";
