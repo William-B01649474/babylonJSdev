@@ -2,6 +2,7 @@ import {
     Scene,
     Mesh,
     HemisphericLight,
+    Engine,
     Camera,
     GroundMesh,
   } from "@babylonjs/core";
@@ -10,10 +11,12 @@ import {
   
   export interface SceneData {
     scene: Scene;
-    ground:GroundMesh;
-    sky: Mesh;
-    lightHemispheric: HemisphericLight;
-    camera: Camera;
+    //ground:GroundMesh;
+    //sky: Mesh;
+    //lightHemispheric: HemisphericLight;
+    canvas: HTMLCanvasElement;
+    engine: Engine;
+    //camera: Camera;
   }
   
   export interface GUIData {

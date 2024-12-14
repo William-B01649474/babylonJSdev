@@ -1,23 +1,42 @@
-import { Engine} from "@babylonjs/core";
-import createStartScene from "./createStartScene";
-import createRunScene from "./createRunScene";
+import { Engine, Scene } from "@babylonjs/core";
 import createGUIScene from "./createGUI";
-import "./main.css";
 import { SceneData } from "./interfaces";
 
-const CanvasName = "renderCanvas";
+// Entry point
+window.addEventListener("DOMContentLoaded", () => {
+  // Get canvas element
+  const canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
 
-let canvas = document.createElement("canvas");
-canvas.id = CanvasName;
+  if (!canvas) {
+    console.error("Canvas element with ID 'renderCanvas' not found.");
+    return;
+  }
 
-canvas.classList.add("background-canvas");
-document.body.appendChild(canvas);
+  // Create BabylonJS engine
+  const engine = new Engine(canvas, true);
 
-let eng = new Engine(canvas, true, {}, true);
-let startScene:SceneData = createStartScene(eng);
-createGUIScene(startScene);
-createRunScene(startScene);
+  // Initial GUI scene
+  const initialScene = new Scene(engine);
 
-eng.runRenderLoop(() => {
-  startScene.scene.render();
+  // Create scene data object
+  const runScene: SceneData = {
+    scene: initialScene,
+    engine: engine, // Pass the engine here
+    canvas: canvas,
+  };
+
+  // Create GUI scene
+  createGUIScene(runScene, engine);
+
+  // Run render loop
+  engine.runRenderLoop(() => {
+    if (runScene.scene) {
+      runScene.scene.render();
+    }
+  });
+
+  // Handle browser resize events
+  window.addEventListener("resize", () => {
+    engine.resize();
+  });
 });

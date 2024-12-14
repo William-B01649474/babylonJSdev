@@ -1,6 +1,7 @@
-import { Scene, Sound } from "@babylonjs/core";
+import { Scene, Sound, Engine } from "@babylonjs/core";
 import { SceneData } from "./interfaces";
 import { Button, AdvancedDynamicTexture } from "@babylonjs/gui/2D";
+import createGameScene from "./gameScene"; // Import the new game scene
 
 // Helper function to create buttons
 function createSceneButton(
@@ -38,7 +39,7 @@ function createSceneButton(
   return button;
 }
 
-export default function createGUIScene(runScene: SceneData) {
+export default function createGUIScene(runScene: SceneData, engine: Engine) {
   // Create GUI texture
   const advancedTexture: AdvancedDynamicTexture =
     AdvancedDynamicTexture.CreateFullscreenUI("myUI", true);
@@ -53,7 +54,11 @@ export default function createGUIScene(runScene: SceneData) {
     advancedTexture,
     () => {
       console.log("Play button clicked!");
-      alert("Play Game!");
+      const gameScene = createGameScene(engine); // Load new game scene
+      engine.stopRenderLoop();
+      engine.runRenderLoop(() => {
+        gameScene.render();
+      });
     }
   );
 
