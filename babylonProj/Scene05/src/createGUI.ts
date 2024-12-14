@@ -2,52 +2,86 @@ import { Scene, Sound } from "@babylonjs/core";
 import { SceneData } from "./interfaces";
 import { Button, AdvancedDynamicTexture } from "@babylonjs/gui/2D";
 
+// Helper function to create buttons
 function createSceneButton(
   scene: Scene,
   name: string,
-  index: string,
+  label: string,
   x: string,
   y: string,
-  advtex: { addControl: (arg0: Button) => void }
+  advtex: AdvancedDynamicTexture,
+  onClick: () => void
 ) {
-  var button: Button = Button.CreateSimpleButton(name, index);
+  const button: Button = Button.CreateSimpleButton(name, label);
   button.left = x;
   button.top = y;
   button.width = "180px";
   button.height = "35px";
   button.color = "white";
   button.cornerRadius = 20;
-  button.background = "green";
+  button.background = "red";
+
   const buttonClick: Sound = new Sound(
     "MenuClickSFX",
     "./assets/audio/menu-click.wav",
     scene,
     null,
-    {
-      loop: false,
-      autoplay: false,
-    }
+    { loop: false, autoplay: false }
   );
-  button.onPointerUpObservable.add(function () {
+
+  button.onPointerUpObservable.add(() => {
     buttonClick.play();
-    alert("you did it!");
+    onClick();
   });
+
   advtex.addControl(button);
   return button;
 }
 
 export default function createGUIScene(runScene: SceneData) {
-  //GUI elements
-  let advancedTexture: AdvancedDynamicTexture =
+  // Create GUI texture
+  const advancedTexture: AdvancedDynamicTexture =
     AdvancedDynamicTexture.CreateFullscreenUI("myUI", true);
-  let button1: Button = createSceneButton(
+
+  // Create buttons with unique actions
+  createSceneButton(
     runScene.scene,
-    "but1",
-    "Click Here",
+    "playButton",
+    "PLAY",
     "0px",
-    "120px",
-    advancedTexture
+    "-60px",
+    advancedTexture,
+    () => {
+      console.log("Play button clicked!");
+      alert("Play Game!");
+    }
   );
-  
+
+  createSceneButton(
+    runScene.scene,
+    "optionsButton",
+    "OPTIONS",
+    "0px",
+    "0px",
+    advancedTexture,
+    () => {
+      console.log("Options button clicked!");
+      alert("Open Options Menu!");
+    }
+  );
+
+  createSceneButton(
+    runScene.scene,
+    "quitButton",
+    "QUIT",
+    "0px",
+    "60px",
+    advancedTexture,
+    () => {
+      console.log("Quit button clicked!");
+      alert("Quit Game!");
+    }
+  );
+
   runScene.scene.onAfterRenderObservable.add(() => {});
 }
