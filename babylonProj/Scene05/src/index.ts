@@ -1,42 +1,35 @@
-import { Engine, Scene } from "@babylonjs/core";
-import createGUIScene from "./createGUI";
-import { SceneData } from "./interfaces";
+import { Engine} from "@babylonjs/core";
+import createScene1  from "./scene1/createStartScene";
+import createScene2  from "./scene2/createStartScene";
+import createScene3  from "./scene3/createStartScene";
+import createScene4  from "./scene4/createStartScene";
+import menuScene from "./gui/guiScene";
+import "./main.css";
 
-// Entry point
-window.addEventListener("DOMContentLoaded", () => {
-  // Get canvas element
-  const canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
+const CanvasName = "renderCanvas";
 
-  if (!canvas) {
-    console.error("Canvas element with ID 'renderCanvas' not found.");
-    return;
-  }
+let canvas = document.createElement("canvas");
+canvas.id = CanvasName;
 
-  // Create BabylonJS engine
-  const engine = new Engine(canvas, true);
+canvas.classList.add("background-canvas");
+document.body.appendChild(canvas);
 
-  // Initial GUI scene
-  const initialScene = new Scene(engine);
+let scene;
+let scenes: any[] = [];
 
-  // Create scene data object
-  const runScene: SceneData = {
-    scene: initialScene,
-    engine: engine, // Pass the engine here
-    canvas: canvas,
-  };
+let eng = new Engine(canvas, true, {}, true);
+let gui = menuScene(eng);
+scenes[0] = createScene1(eng);
+scenes[1] = createScene2(eng);
+scenes[2] = createScene3(eng);
+scenes[3] = createScene4(eng);
+scene = scenes[0].scene;
+setSceneIndex(0);
 
-  // Create GUI scene
-  createGUIScene(runScene, engine);
-
-  // Run render loop
-  engine.runRenderLoop(() => {
-    if (runScene.scene) {
-      runScene.scene.render();
-    }
+export default function setSceneIndex(i: number) {
+  eng.runRenderLoop(() => {
+      scenes[i].scene.render();
+      gui.scene.autoClear = false;
+      gui.scene.render();
   });
-
-  // Handle browser resize events
-  window.addEventListener("resize", () => {
-    engine.resize();
-  });
-});
+}   
