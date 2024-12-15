@@ -89,14 +89,16 @@ function createGUI(scene: Scene, counter: { value: number }) {
 
 export default function createJumpingBallScene(engine: Engine) {
   interface SceneData {
-      light: HemisphericLight;
+      light?: HemisphericLight;
       scene: Scene;
       sphere?: Mesh;
       ground?: Mesh;
       camera?: Camera;
   }
 
-  let that: SceneData = { scene: new Scene(engine) };
+  let that: SceneData = {
+      scene: new Scene(engine)
+  };
 
   // Create background
   createBackground(that.scene);
@@ -140,3 +142,4 @@ export default function createJumpingBallScene(engine: Engine) {
 
   return that;
 }
+
