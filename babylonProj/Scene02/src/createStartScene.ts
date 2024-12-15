@@ -125,7 +125,7 @@ function createRoof(style: number) {
   return roof;
 }
 
-function createHouse(scene: Scene, style: number) {
+function createHouse(_scene: Scene, style: number) {
   const box = createBox(style);
   const roof = createRoof(style);
   const house = Mesh.MergeMeshes(

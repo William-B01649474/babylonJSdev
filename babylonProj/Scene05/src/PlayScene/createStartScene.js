@@ -31,7 +31,7 @@ function createArcRotateCamera(scene) {
     camera.attachControl(scene.getEngine().getRenderingCanvas(), true);
     return camera;
 }
-function createGUI(scene, counter) {
+function createGUI(_scene, counter) {
     const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true);
     const counterText = new GUI.TextBlock();
     counterText.text = `Jumps: ${counter.value}`;

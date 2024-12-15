@@ -77,7 +77,7 @@ function createRoof(style) {
     roof.material = roofMat;
     return roof;
 }
-function createHouse(scene, style) {
+function createHouse(_scene, style) {
     const box = createBox(style);
     const roof = createRoof(style);
     const house = Mesh.MergeMeshes([box, roof], true, false, undefined, false, true);
