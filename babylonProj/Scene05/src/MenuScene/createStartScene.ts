@@ -11,7 +11,8 @@ import {
     Color3,
     Camera,
     Engine,
-    Animation
+    Animation,
+    StandardMaterial
 } from "@babylonjs/core";
 
 function createLight(scene: Scene) {
@@ -23,6 +24,11 @@ function createLight(scene: Scene) {
 function createSphere(scene: Scene): Mesh {
     let sphere = MeshBuilder.CreateSphere("sphere", { diameter: 2, segments: 32 }, scene);
     sphere.position.y = 1;
+
+    // Add red material to the sphere
+    const material = new StandardMaterial("sphereMaterial", scene);
+    material.diffuseColor = new Color3(1, 0, 0); // Red color
+    sphere.material = material;
 
     // Add animation for bouncing
     const animation = new Animation(
@@ -48,7 +54,13 @@ function createSphere(scene: Scene): Mesh {
 }
 
 function createGround(scene: Scene): Mesh {
-    let ground = MeshBuilder.CreateGround("ground", { width: 1000, height: 10 }, scene);
+    let ground = MeshBuilder.CreateGround("ground", { width: 1000, height: 100 }, scene);
+
+    // Add black material to the ground
+    const material = new StandardMaterial("groundMaterial", scene);
+    material.diffuseColor = new Color3(0, 0, 0); // Black color
+    ground.material = material;
+
     return ground;
 }
 

@@ -33,7 +33,7 @@ function createSphere(scene: Scene): Mesh {
 }
 
 function createGround(scene: Scene): Mesh {
-  let ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene);
+  let ground = MeshBuilder.CreateGround("ground", { width: 1000, height: 100 }, scene);
 
   // Add black material to the ground
   const material = new StandardMaterial("groundMaterial", scene);
@@ -61,7 +61,7 @@ function createArcRotateCamera(scene: Scene): Camera {
   return camera;
 }
 
-function createGUI(scene: Scene, counter: { value: number }) {
+function createGUI(_scene: Scene, counter: { value: number }) {
   const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true);
 
   // Counter display

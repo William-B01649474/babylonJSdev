@@ -7,8 +7,16 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview --host",
-    "Scene01_Motionbuild": "tsc && vite build Scene01_Motion",
-    "Scene01_Motionpreview": "vite preview Scene01_Motion --host"
+    "Scene01build": "tsc && vite build Scene01",
+    "Scene01preview": "vite preview Scene01",
+    "Scene02build": "tsc && vite build Scene02",
+    "Scene02preview": "vite preview Scene02",
+    "Scene03build": "tsc && vite build Scene03",
+    "Scene03preview": "vite preview Scene03",
+    "Scene04build": "tsc && vite build Scene04",
+    "Scene04preview": "vite preview Scene04",
+    "Scene05build": "tsc && vite build Scene05",
+    "Scene05preview": "vite preview Scene05"
   },
   "devDependencies": {
     "typescript": "~5.6.2",
