@@ -1,5 +1,5 @@
-// import "@babylonjs/core/Debug/debugLayer";
-// import "@babylonjs/inspector";
+import "@babylonjs/core/Debug/debugLayer";
+import "@babylonjs/inspector";
 import {
     Scene,
     ArcRotateCamera,
@@ -8,77 +8,79 @@ import {
     MeshBuilder,
     Mesh,
     Light,
+    Color3,
     Camera,
     Engine,
-  } from "@babylonjs/core";
-  
-  
-  function createBox(scene: Scene) {
-    let box = MeshBuilder.CreateBox("box",{size: 1}, scene);
-    box.position.y = 3;
-    return box;
-  }
+    Animation
+} from "@babylonjs/core";
 
-  
-  function createLight(scene: Scene) {
+function createLight(scene: Scene) {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
     return light;
-  }
-  
-  function createSphere(scene: Scene) {
-    let sphere = MeshBuilder.CreateSphere(
-      "sphere",
-      { diameter: 2, segments: 32 },
-      scene,
-    );
+}
+
+function createSphere(scene: Scene): Mesh {
+    let sphere = MeshBuilder.CreateSphere("sphere", { diameter: 2, segments: 32 }, scene);
     sphere.position.y = 1;
+
+    // Add animation for bouncing
+    const animation = new Animation(
+        "bouncingAnimation",
+        "position.y",
+        30,
+        Animation.ANIMATIONTYPE_FLOAT,
+        Animation.ANIMATIONLOOPMODE_CYCLE
+    );
+
+    const keys = [
+        { frame: 0, value: 1 }, // Start position
+        { frame: 15, value: 3 }, // Peak of the bounce
+        { frame: 30, value: 1 } // Return to start
+    ];
+
+    animation.setKeys(keys);
+    sphere.animations.push(animation);
+
+    scene.beginAnimation(sphere, 0, 30, true);
+
     return sphere;
-  }
-  
-  function createGround(scene: Scene) {
-    let ground = MeshBuilder.CreateGround(
-      "ground",
-      { width: 6, height: 6 },
-      scene,
-    );
+}
+
+function createGround(scene: Scene): Mesh {
+    let ground = MeshBuilder.CreateGround("ground", { width: 1000, height: 10 }, scene);
     return ground;
-  }
-  
-  function createArcRotateCamera(scene: Scene) {
+}
+
+function createArcRotateCamera(scene: Scene): Camera {
     let camAlpha = -Math.PI / 2,
-      camBeta = Math.PI / 2.5,
-      camDist = 10,
-      camTarget = new Vector3(0, 0, 0);
-    let camera = new ArcRotateCamera(
-      "camera1",
-      camAlpha,
-      camBeta,
-      camDist,
-      camTarget,
-      scene,
-    );
-    camera.attachControl(true);
+        camBeta = Math.PI / 4,
+        camDist = 15,
+        camTarget = new Vector3(0, 0, 0);
+
+    let camera = new ArcRotateCamera("camera1", camAlpha, camBeta, camDist, camTarget, scene);
+    //camera.attachControl(true);
     return camera;
-  }
-  
-  export default function createStartScene(engine: Engine) {
+}
+
+export default function createBouncingSphereScene(engine: Engine) {
     interface SceneData {
-      scene: Scene;
-      box?: Mesh;
-      light?: Light;
-      sphere?: Mesh;
-      ground?: Mesh;
-      camera?: Camera;
+        scene: Scene;
+        light?: Light;
+        sphere?: Mesh;
+        ground?: Mesh;
+        camera?: Camera;
     }
-  
+
     let that: SceneData = { scene: new Scene(engine) };
-    // that.scene.debugLayer.show();
-  
-    that.box = createBox(that.scene);
+
+    // Set background color
+    //that.scene.clearColor = new Color3(0.1, 0.1, 0.4); // A solid blue background
+
     that.light = createLight(that.scene);
     that.sphere = createSphere(that.scene);
     that.ground = createGround(that.scene);
     that.camera = createArcRotateCamera(that.scene);
+
     return that;
-  }
+}

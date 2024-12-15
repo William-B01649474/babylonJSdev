@@ -1,5 +1,5 @@
-import "@babylonjs/core/Debug/debugLayer";
-import "@babylonjs/inspector";
+// import "@babylonjs/core/Debug/debugLayer";
+// import "@babylonjs/inspector";
 import {
     Scene,
     ArcRotateCamera,
@@ -8,7 +8,6 @@ import {
     MeshBuilder,
     Mesh,
     Light,
-    Color3,
     Camera,
     Engine,
   } from "@babylonjs/core";
@@ -24,9 +23,6 @@ import {
   function createLight(scene: Scene) {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
-    light.diffuse = new Color3(1, 0, 0);
-    light.specular = new Color3(0, 1, 0);
-    light.groundColor = new Color3(0, 1, 0);
     return light;
   }
   
@@ -37,14 +33,13 @@ import {
       scene,
     );
     sphere.position.y = 1;
-    sphere.position.x = 3;
     return sphere;
   }
   
   function createGround(scene: Scene) {
     let ground = MeshBuilder.CreateGround(
       "ground",
-      { width: 10, height: 10 },
+      { width: 6, height: 6 },
       scene,
     );
     return ground;
@@ -63,7 +58,7 @@ import {
       camTarget,
       scene,
     );
-    camera.attachControl(true);
+    //camera.attachControl(true);
     return camera;
   }
   
@@ -78,7 +73,7 @@ import {
     }
   
     let that: SceneData = { scene: new Scene(engine) };
-    that.scene.debugLayer.show();
+    // that.scene.debugLayer.show();
   
     that.box = createBox(that.scene);
     that.light = createLight(that.scene);
