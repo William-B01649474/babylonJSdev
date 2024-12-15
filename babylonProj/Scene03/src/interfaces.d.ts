@@ -1,21 +1,19 @@
-//
-
 import {
-    Scene,
-    Sound,
-    Mesh,
-    HemisphericLight,
-    Camera,
-    ISceneLoaderAsyncResult,
-  } from "@babylonjs/core";
-  
-  export interface SceneData {
-    scene: Scene;
-    audio: Sound;
-    lightHemispheric: HemisphericLight;
-    camera: Camera;
-    player: Promise<void | ISceneLoaderAsyncResult>;
-    ground: Mesh;
-  }
+  Scene,
+  Sound,
+  Mesh,
+  HemisphericLight,
+  Camera,
+  AbstractMesh,
+} from "@babylonjs/core";
+
+export interface SceneData {
+  scene: Scene;
+  audio: Sound;
+  lightHemispheric: HemisphericLight;
+  camera: Camera;
+  player: AbstractMesh; // Corrected type
+  ground: Mesh;
+}
 
   

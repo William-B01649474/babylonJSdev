@@ -12,35 +12,36 @@ import {
   Texture,
   SceneLoader,
   AbstractMesh,
-  ISceneLoaderAsyncResult,
   Sound
 } from "@babylonjs/core";
 
-function backgroundMusic(scene: Scene): Sound{
-  let music = new Sound("music", "./assets/audio/arcade-kid.mp3", scene,  null ,
-   {
-      loop: true,
-      autoplay: true
+function backgroundMusic(scene: Scene): Sound {
+  let music = new Sound("music", "./assets/audio/arcade-kid.mp3", scene, null, {
+    loop: true,
+    autoplay: true,
   });
 
   Engine.audioEngine!.useCustomUnlockedButton = true;
 
   // Unlock audio on first user interaction.
-  window.addEventListener('click', () => {
-    if(!Engine.audioEngine!.unlocked){
+  window.addEventListener(
+    "click",
+    () => {
+      if (!Engine.audioEngine!.unlocked) {
         Engine.audioEngine!.unlock();
-    }
-}, { once: true });
+      }
+    },
+    { once: true }
+  );
   return music;
 }
 
 function createGround(scene: Scene) {
   const groundMaterial = new StandardMaterial("groundMaterial");
   const groundTexture = new Texture("./assets/textures/wood.jpg");
-  groundTexture.uScale  = 4.0; //Repeat 4 times on the Vertical Axes
-  groundTexture.vScale  = 4.0; //Repeat 4 times on the Horizontal Axes
+  groundTexture.uScale = 4.0; // Repeat 4 times on the Vertical Axes
+  groundTexture.vScale = 4.0; // Repeat 4 times on the Horizontal Axes
   groundMaterial.diffuseTexture = groundTexture;
- // groundMaterial.diffuseTexture = new Texture("./assets/textures/wood.jpg");
   groundMaterial.diffuseTexture.hasAlpha = true;
 
   groundMaterial.backFaceCulling = false;
@@ -87,36 +88,36 @@ function createArcRotateCamera(scene: Scene) {
   camera.lowerBetaLimit = 0;
   camera.upperBetaLimit = Math.PI / 2.02;
 
-  //camera.attachControl(true);
   return camera;
 }
 
-function importMeshA(scene: Scene, x: number, y: number) {
-  let item: Promise<void | ISceneLoaderAsyncResult> =
-    SceneLoader.ImportMeshAsync(
-      "",
-      "./assets/models/men/",
-      "dummy3.babylon",
-      scene
-    );
-
-  item.then((result) => {
-    let character: AbstractMesh = result!.meshes[0];
-    character.position.x = x;
-    character.position.y = y + 0.1;
-    character.scaling = new Vector3(1, 1, 1);
-    character.rotation = new Vector3(0, 1.5, 0);
-  });
-  return item;
+async function importMeshA(scene: Scene, x: number, y: number): Promise<AbstractMesh> {
+  const result = await SceneLoader.ImportMeshAsync("", "./assets/models/men/", "dummy3.babylon", scene);
+  if (result.meshes.length === 0) {
+    throw new Error("No meshes found in the imported model.");
+  }
+  let character = result.meshes[0];
+  character.position.x = x;
+  character.position.y = y + 0.1;
+  character.scaling = new Vector3(1, 1, 1);
+  character.rotation = new Vector3(0, 1.5, 0);
+  return character;
 }
 
-export default function createStartScene(engine: Engine) {
+export default async function createStartScene(engine: Engine): Promise<SceneData> {
   let scene = new Scene(engine);
   let audio = backgroundMusic(scene);
   let lightHemispheric = createHemisphericLight(scene);
   let camera = createArcRotateCamera(scene);
-  let player = importMeshA(scene, 0, 0);
   let ground = createGround(scene);
+
+  let player: AbstractMesh;
+  try {
+    player = await importMeshA(scene, 0, 0);
+  } catch (error) {
+    console.error("Error loading player mesh:", error);
+    throw error;
+  }
 
   let that: SceneData = {
     scene,
@@ -126,5 +127,6 @@ export default function createStartScene(engine: Engine) {
     player,
     ground,
   };
+
   return that;
 }

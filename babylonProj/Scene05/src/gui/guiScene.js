@@ -1,7 +1,7 @@
 import setSceneIndex from "./../index";
 import { Scene, ArcRotateCamera, Vector3 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
-function createText(scene, theText, x, y, s, c, advtex) {
+function createText(_scene, theText, x, y, s, c, advtex) {
     let text = new GUI.TextBlock();
     text.text = theText;
     text.color = c;
@@ -12,7 +12,7 @@ function createText(scene, theText, x, y, s, c, advtex) {
     advtex.addControl(text);
     return text;
 }
-function createRectangle(scene, w, h, x, y, cr, c, t, bg, advtext) {
+function createRectangle(_scene, w, h, x, y, cr, c, t, bg, advtext) {
     let rectangle = new GUI.Rectangle();
     rectangle.width = w;
     rectangle.height = h;
@@ -25,7 +25,7 @@ function createRectangle(scene, w, h, x, y, cr, c, t, bg, advtext) {
     advtext.addControl(rectangle);
     return rectangle;
 }
-function createSceneButton(scene, name, note, index, x, y, advtex, onClick) {
+function createSceneButton(_scene, name, note, _index, x, y, advtex, onClick) {
     let button = GUI.Button.CreateSimpleButton(name, note);
     button.left = x;
     button.top = y;

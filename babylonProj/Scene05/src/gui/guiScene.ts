@@ -20,7 +20,7 @@ import {
  
   //----------------------------------------------------
 
-  function createText(scene: Scene, theText: string, x: string, y: string, s: string, c: string, advtex) {
+  function createText(_scene: Scene, theText: string, x: string, y: string, s: string, c: string, advtex) {
     let text = new GUI.TextBlock();
     text.text = theText;
     text.color = c;
@@ -32,7 +32,7 @@ import {
     return text;
   }
 
-  function createRectangle(scene: Scene, w: string, h: string, x: string, y: string, cr: number, c: string, t: number, bg: string, advtext) {
+  function createRectangle(_scene: Scene, w: string, h: string, x: string, y: string, cr: number, c: string, t: number, bg: string, advtext) {
     let rectangle = new GUI.Rectangle();
     rectangle.width = w;
     rectangle.height = h;
@@ -47,10 +47,10 @@ import {
   }
 
   function createSceneButton(
-    scene: Scene,
+    _scene: Scene,
     name: string,
     note: string,
-    index: number,
+    _index: number,
     x: string,
     y: string,
     advtex,
